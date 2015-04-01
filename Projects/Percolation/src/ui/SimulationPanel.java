@@ -5,7 +5,6 @@
 
 package ui;
 
-import logic.Grid;
 import logic.Percolation;
 
 import java.awt.Color;
@@ -18,20 +17,19 @@ import javax.swing.JPanel;
 
 
 public class SimulationPanel extends JPanel implements Runnable {
-    private Grid grid;
     private Percolation percolation;
     private Thread thread;
 
-    final int framerate = 10;
+    final int framerate = 60;
     private boolean running = false;
+    private int tileSize;
+    private int margin;
 
     public SimulationPanel(int x, int y, int tileSize, int margin) {
         setPreferredSize(new Dimension(x, y));
-        int columns = x / (tileSize + margin);
-        int rows = y / (tileSize + margin);
-        
-        this.grid = new Grid(columns, rows, tileSize, margin);
-        this.percolation = new Percolation((columns * rows) - 1);
+        this.tileSize = tileSize;
+        this.margin = margin;
+        this.percolation = new Percolation(40);
     }
 
     @Override
@@ -39,8 +37,12 @@ public class SimulationPanel extends JPanel implements Runnable {
         long start, end, sleepTime;
         while (running) {
             start = System.currentTimeMillis();
-            percolation.open(grid.getTiles());
+            percolation.open();
+            percolation.analyzeFlow();
             repaint();
+            if (percolation.percolates()) {
+                stop();
+            }
             end = System.currentTimeMillis();
             // Sleep to match FPS limit
             sleepTime = (1000 / framerate) - (end - start);
@@ -63,7 +65,7 @@ public class SimulationPanel extends JPanel implements Runnable {
         gfx.setColor(new Color(0x2c3e50));
         gfx.fillRect(0, 0, getWidth(), getHeight());
         // Render next frame
-        grid.draw(gfx);
+        percolation.draw(gfx, tileSize, margin);
     }
 
     public synchronized void start() {

@@ -36,7 +36,7 @@ public class MainFrame implements Runnable {
     }
 
     private void createComponents(Container container) {
-        SimulationPanel simPanel = new SimulationPanel(width, height, 38, 2);
+        SimulationPanel simPanel = new SimulationPanel(width, height, 13, 2);
         container.add(simPanel);
         simPanel.start();
     }
