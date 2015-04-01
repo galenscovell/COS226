@@ -21,7 +21,6 @@ public class MainFrame implements Runnable {
         this.height = y;
     }
 
-    @Override
     public void run() {
         this.frame = new JFrame("Percolation");
         frame.setPreferredSize(new Dimension(width, height));

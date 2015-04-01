@@ -10,18 +10,24 @@ import logic.Percolation;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
 public class SimulationPanel extends JPanel implements Runnable {
     private Percolation percolation;
     private Thread thread;
+    private JLabel statsLabel;
+    private JLabel timeLabel;
 
-    final int framerate = 60;
+    final int framerate = 120;
     private boolean running = false;
+    private double runTimeStart;
     private int tileSize;
     private int margin;
 
@@ -30,19 +36,57 @@ public class SimulationPanel extends JPanel implements Runnable {
         this.tileSize = tileSize;
         this.margin = margin;
         this.percolation = new Percolation(40);
+
+        setLayout(new BorderLayout());
+        Font customFont = new Font("Source Code Pro", Font.PLAIN, 12);
+
+        JPanel detailPanel = new JPanel();
+        detailPanel.setPreferredSize(new Dimension(x, 30));
+        detailPanel.setLayout(new BorderLayout());
+
+        this.statsLabel = new JLabel("", JLabel.CENTER);
+        statsLabel.setPreferredSize(new Dimension(x - 150, 30));
+        statsLabel.setBackground(Color.WHITE);
+        statsLabel.setFont(customFont);
+        statsLabel.setOpaque(true);
+        detailPanel.add(statsLabel, BorderLayout.LINE_START);
+
+        this.timeLabel = new JLabel("", JLabel.CENTER);
+        timeLabel.setPreferredSize(new Dimension(x - 450, 30));
+        timeLabel.setBackground(Color.BLACK);
+        timeLabel.setForeground(Color.WHITE);
+        timeLabel.setFont(customFont);
+        timeLabel.setOpaque(true);
+        detailPanel.add(timeLabel, BorderLayout.LINE_END);
+
+        add(detailPanel, BorderLayout.PAGE_END);
     }
 
-    @Override
+    private void updateLabels() {
+        int totalSites = percolation.getTotalSites();
+        int openSites = percolation.getOpenSites();
+        double ratio = percolation.getRatio();
+        this.statsLabel.setText("Total sites: " + totalSites + " | Open sites: " + openSites + " | Ratio: " + ratio);
+
+        double runTime = (System.currentTimeMillis() - runTimeStart) / 1000;
+        this.timeLabel.setText("Runtime: " + runTime + "s");
+    }
+
     public void run() {
         long start, end, sleepTime;
+        this.runTimeStart = System.currentTimeMillis();
+
         while (running) {
             start = System.currentTimeMillis();
+
             percolation.open();
             percolation.analyzeFlow();
             repaint();
             if (percolation.percolates()) {
+                updateLabels();
                 stop();
             }
+
             end = System.currentTimeMillis();
             // Sleep to match FPS limit
             sleepTime = (1000 / framerate) - (end - start);

@@ -1,3 +1,4 @@
+<img src='http://galenscovell.github.io/css/pics/percolation.png' width=500px />
 
 Percolation
 ======
