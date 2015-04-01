@@ -22,22 +22,19 @@
 public class Main {
 
     public static void main(String[] args) {
-        QuickUnion qu = new QuickUnion(10);
+        QuickUnion qu = new QuickUnion(6);
 
-        System.out.println("\n1 connected to 2: " + qu.connected(1, 2));
-        System.out.println("\t(Root of 2 is " + qu.root(2) + ")");
-        System.out.println("Connect 2 to 1.");
-        qu.union(1, 2);
-        System.out.println("1 connected to 2: " + qu.connected(1, 2));
-        System.out.println("\t(Root of 2 is " + qu.root(2) + ")");
-        System.out.println("\t\t[Size of 1 tree: " + qu.sizeOf(1) + "]");
-
-        System.out.println("\n3 connected to 1: " + qu.connected(1, 3));
-        System.out.println("\t(Root of 3 is " + qu.root(3) + ")");
-        System.out.println("Connect 3 to 2.");
-        qu.union(2, 3);
-        System.out.println("3 connected to 1: " + qu.connected(1, 3));
-        System.out.println("\t(Root of 3 is " + qu.root(3) + ")");
-        System.out.println("\t\t[Size of 1 tree: " + qu.sizeOf(1) + "]");
+        qu.printNodes();
+        qu.printSizes();
+        qu.union(0, 1);
+        qu.printNodes();
+        qu.printSizes();
+        qu.union(0, 2);
+        qu.printNodes();
+        qu.printSizes();
+        qu.union(0, 4);
+        qu.printNodes();
+        qu.printSizes();
+        qu.connected(1, 4);
     }
 }

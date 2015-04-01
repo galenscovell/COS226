@@ -5,24 +5,23 @@
 
 
 public class QuickUnion {
-    private int[] id;
+    private int[] node;
     private int[] size;
 
     public QuickUnion(int n) {
-        this.id = new int[n];
+        this.node = new int[n];
         this.size = new int[n];
-        // Set ID of each object to itself
+        // Set value of each node to its beginning index
         for (int i = 0; i < n; i++) {
-            id[i] = i;
+            node[i] = i;
             size[i] = 1;
         }
     }
 
     public int root(int i) {
-        // Chase parent until root is reached
-        while (i != id[i]) {
-            id[i] = id[id[i]]; // Path compression optimization
-            i = id[i];
+        while (i != node[i]) {
+            node[i] = node[node[i]]; // Path compression optimization
+            i = node[i];
         }
         return i;
     }
@@ -32,19 +31,31 @@ public class QuickUnion {
     }
 
     public void union(int p, int q) {
-        // Change root of p to point to root of q
+        // Change root of smaller tree to root of larger tree
         int i = root(p);
         int j = root(q);
         if (size[i] < size[j]) {
-            id[i] = j;
+            node[i] = j;
             size[j] += size[i];
         } else {
-            id[j] = i;
+            node[j] = i;
             size[i] += size[j];
         }
     }
 
-    public int sizeOf(int n) {
-        return size[n];
+    public void printNodes() {
+        System.out.print("\nNode roots [");
+        for (int i = 0; i < node.length - 1; i++) {
+            System.out.print(node[i] + ", ");
+        }
+        System.out.print(node[node.length - 1] + "]\n");
+    }
+
+    public void printSizes() {
+        System.out.print("Tree sizes [");
+        for (int i = 0; i < size.length - 1; i++) {
+            System.out.print(size[i] + ", ");
+        }
+        System.out.print(size[size.length - 1] + "]\n");
     }
 }
