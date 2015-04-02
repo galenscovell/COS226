@@ -3,9 +3,8 @@
  * Quick-Union Algorithm
  * [Lazy approach utilizing trees]
  *
- * connected(p, q): Check if p and q have the same root ID.
- * union(p, q): Merge components containing p and q, set ID of p's root 
- * to the ID of q's root.
+ * connected(p, q): Check if sites p and q have the same root.
+ * union(p, q): Merge components containing sites p and q, set p's root to q's root.
  *
  *
  * OPTIMIZATIONS:
@@ -22,19 +21,40 @@
 public class Main {
 
     public static void main(String[] args) {
-        QuickUnion qu = new QuickUnion(6);
+        QuickUnion qu = new QuickUnion(10);
 
-        qu.printNodes();
+        qu.printSites();
+        qu.printParents();
         qu.printSizes();
-        qu.union(0, 1);
-        qu.printNodes();
+        System.out.println("Components: " + qu.componentCount());
+
+        System.out.println("\n\tConnect 1 and 0");
+        qu.union(1, 0);
+        System.out.println("\tConnect 5 and 0");
+        qu.union(5, 0);
+        System.out.println("\tConnect 2 and 1");
+        qu.union(2, 1);
+        System.out.println("\tConnect 7 and 1");
+        qu.union(7, 1);
+        System.out.println("\tConnect 6 and 5");
+        qu.union(6, 5);
+
+        System.out.println("\n\tConnect 8 and 3");
+        qu.union(8, 3);
+        System.out.println("\tConnect 4 and 3");
+        qu.union(4, 3);
+
+        qu.printSites();
+        qu.printParents();
         qu.printSizes();
-        qu.union(0, 2);
-        qu.printNodes();
+        System.out.println("Components: " + qu.componentCount());
+
+        System.out.println("\n\tConnect 1 and 8");
+        qu.union(1, 8);
+
+        qu.printSites();
+        qu.printParents();
         qu.printSizes();
-        qu.union(0, 4);
-        qu.printNodes();
-        qu.printSizes();
-        qu.connected(1, 4);
+        System.out.println("Components: " + qu.componentCount());
     }
 }

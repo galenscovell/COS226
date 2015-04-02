@@ -5,57 +5,77 @@
 
 
 public class QuickUnion {
-    private int[] node;
+    private int[] parent;
     private int[] size;
+    private int components;
 
     public QuickUnion(int n) {
-        this.node = new int[n];
+        this.parent = new int[n];
         this.size = new int[n];
-        // Set value of each node to its beginning index
+        this.components = n;
+        
         for (int i = 0; i < n; i++) {
-            node[i] = i;
+            parent[i] = i;
             size[i] = 1;
         }
     }
 
-    public int root(int i) {
-        while (i != node[i]) {
-            node[i] = node[node[i]]; // Path compression optimization
-            i = node[i];
+    public int find(int i) {
+        // Follow links until root is reached 
+        // (when i is same as value at position parent[i])
+        while (i != parent[i]) {
+            parent[i] = parent[parent[i]]; // Path compression optimization
+            i = parent[i];
         }
         return i;
     }
 
     public boolean connected(int p, int q) {
-        return root(p) == root(q);
+        // Sites are connected if they are within the same component
+        // (they have matching roots)
+        return find(p) == find(q);
     }
 
     public void union(int p, int q) {
+        // Check tree sizes of sites p and q
         // Change root of smaller tree to root of larger tree
-        int i = root(p);
-        int j = root(q);
-        if (size[i] < size[j]) {
-            node[i] = j;
-            size[j] += size[i];
+        int rootP = find(p);
+        int rootQ = find(q);
+        if (size[rootP] < size[rootQ]) {
+            parent[rootP] = rootQ;
+            size[rootQ] += size[rootP];
         } else {
-            node[j] = i;
-            size[i] += size[j];
+            parent[rootQ] = rootP;
+            size[rootP] += size[rootQ];
         }
+        components--;
     }
 
-    public void printNodes() {
-        System.out.print("\nNode roots [");
-        for (int i = 0; i < node.length - 1; i++) {
-            System.out.print(node[i] + ", ");
+    public int componentCount() {
+        return components;
+    }
+
+    public void printSites() {
+        System.out.print("\nSites        [");
+        for (int i = 0; i < parent.length; i++) {
+            System.out.print(i + " ");
         }
-        System.out.print(node[node.length - 1] + "]\n");
+        System.out.print("]\n");
+    }
+
+    public void printParents() {
+        System.out.print("Site parents [");
+        for (int i = 0; i < parent.length; i++) {
+            System.out.print(parent[i] + " ");
+        }
+        System.out.print("]\n");
     }
 
     public void printSizes() {
-        System.out.print("Tree sizes [");
-        for (int i = 0; i < size.length - 1; i++) {
-            System.out.print(size[i] + ", ");
+        System.out.print("Tree sizes   [");
+        for (int i = 0; i < size.length; i++) {
+            System.out.print(size[i] + " ");
         }
-        System.out.print(size[size.length - 1] + "]\n");
+        System.out.print("]\n");
     }
 }
