@@ -56,5 +56,3 @@ This project utilizes the Weighted Quick-Union data structure with Path Compress
 <blockquote>We can calculate a (the constant): [T(N) = aN<sup>b</sup>] 8.0109 = a*160<sup>4</sup>, a = 1.2 * 10<sup>-8</sup></blockquote>
 <blockquote>My version of Percolation can be approximated with the power law: 1.2*10<sup>-8</sup> * N<sup>4</sup></blockquote>
 
-Clearly, some optimizations are in order!
-

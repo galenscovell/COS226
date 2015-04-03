@@ -25,7 +25,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        if (args[0].equals("test")) {
+        if (args.length > 0 && args[0].equals("test")) {
             int inputSize = Integer.parseInt(args[1]);
             double totalRunTime = 0;
             int runs = 0;
