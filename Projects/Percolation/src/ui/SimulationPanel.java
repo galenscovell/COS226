@@ -80,11 +80,7 @@ public class SimulationPanel extends JPanel implements Runnable {
         while (running) {
             start = System.currentTimeMillis();
 
-            // With N of 80, open 64 sites per frame (N*N / 100)
-            for (int i = 0; i < 64; i++) {
-                percolation.open();
-            }
-
+            percolation.open();
             percolation.analyzeFlow();
             repaint();
             if (percolation.percolates()) {

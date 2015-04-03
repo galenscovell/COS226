@@ -44,15 +44,19 @@ public class Percolation {
     public void open() {
         int randomX, randomY;
         Random random = new Random();
-        boolean opening = true;
+        boolean opening;
 
-        while (opening) {
-            randomX = random.nextInt(n);
-            randomY = random.nextInt(n);
-            if (!isOpen(randomX, randomY)) {
-                grid[randomX][randomY] = true;
-                opening = false;
-                openSites++;
+        // Open more sites equal (to N*N / 100)
+        for (int i = 0; i < ((n*n) / 100); i++) {
+            opening = true;
+            while (opening) {
+                randomX = random.nextInt(n);
+                randomY = random.nextInt(n);
+                if (!isOpen(randomX, randomY)) {
+                    grid[randomX][randomY] = true;
+                    opening = false;
+                    openSites++;
+                }
             }
         }
     }

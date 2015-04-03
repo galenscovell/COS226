@@ -17,10 +17,7 @@ public class Main {
 
         PercolationTest pt = new PercolationTest(n);
         while (!pt.percolates()) {
-            // Open more sites equal (to N*N / 100)
-            for (int i = 0; i < ((n * n) / 100); i++) {
-                pt.open();
-            }
+            pt.open();
             pt.analyzeFlow();
         }
         // Add this percolation p* value to totalP
