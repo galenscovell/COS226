@@ -15,11 +15,13 @@ public class PercolationTest {
     private QuickUnion qu;
     private int n;
     private boolean[][] grid;
+    private int openSites;
 
     public PercolationTest(int n) {
         this.n = n;
         this.qu = new QuickUnion(n + (n * n));
         this.grid = new boolean[n][n];
+        this.openSites = 0;
 
         // Initialize grid as all closed tiles
         for (int x = 0; x < n; x++) {
@@ -47,6 +49,7 @@ public class PercolationTest {
             if (!isOpen(randomX, randomY)) {
                 grid[randomX][randomY] = true;
                 opening = false;
+                openSites++;
             }
         }
     }
@@ -64,6 +67,10 @@ public class PercolationTest {
                 }
             }
         }
+    }
+
+    public double getRatio() {
+        return (double) openSites / (n*n);
     }
 
     private void flow(int x, int y) {

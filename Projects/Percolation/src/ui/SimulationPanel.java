@@ -26,7 +26,7 @@ public class SimulationPanel extends JPanel implements Runnable {
     private JLabel statsLabel;
     private JLabel timeLabel;
 
-    final int framerate = 120;
+    final int framerate = 60;
     private boolean running = false;
     private double runTimeStart;
     private int tileSize;
@@ -36,7 +36,7 @@ public class SimulationPanel extends JPanel implements Runnable {
         setPreferredSize(new Dimension(x, y));
         this.tileSize = tileSize;
         this.margin = margin;
-        this.percolation = new Percolation(40);
+        this.percolation = new Percolation(80); // Default N is 80
 
         setLayout(new BorderLayout());
         Font customFont = new Font("Source Code Pro", Font.PLAIN, 12);
@@ -46,14 +46,14 @@ public class SimulationPanel extends JPanel implements Runnable {
         detailPanel.setLayout(new BorderLayout());
 
         this.statsLabel = new JLabel("", JLabel.CENTER);
-        statsLabel.setPreferredSize(new Dimension(x - 150, 30));
+        statsLabel.setPreferredSize(new Dimension(x - 200, 30));
         statsLabel.setBackground(Color.WHITE);
         statsLabel.setFont(customFont);
         statsLabel.setOpaque(true);
         detailPanel.add(statsLabel, BorderLayout.LINE_START);
 
         this.timeLabel = new JLabel("", JLabel.CENTER);
-        timeLabel.setPreferredSize(new Dimension(x - 450, 30));
+        timeLabel.setPreferredSize(new Dimension(x - 445, 30));
         timeLabel.setBackground(Color.BLACK);
         timeLabel.setForeground(Color.WHITE);
         timeLabel.setFont(customFont);
@@ -80,7 +80,11 @@ public class SimulationPanel extends JPanel implements Runnable {
         while (running) {
             start = System.currentTimeMillis();
 
-            percolation.open();
+            // With N of 80, open 64 sites per frame (N*N / 100)
+            for (int i = 0; i < 64; i++) {
+                percolation.open();
+            }
+
             percolation.analyzeFlow();
             repaint();
             if (percolation.percolates()) {

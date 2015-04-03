@@ -35,7 +35,8 @@ public class MainFrame implements Runnable {
     }
 
     private void createComponents(Container container) {
-        SimulationPanel simPanel = new SimulationPanel(width, height, 13, 2);
+        // Default tilesize is 6, margin 2
+        SimulationPanel simPanel = new SimulationPanel(width, height, 6, 2);
         container.add(simPanel);
         simPanel.start();
     }
