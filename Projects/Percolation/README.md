@@ -9,9 +9,11 @@ This project utilizes the Weighted Quick-Union data structure with Path Compress
 <blockquote>Given a composite system comprised of randomly distributed insulating and metallic materials: what fraction of the materials need to be metallic so that the composite system is an electrical conductor? Given a porous landscape with water on the surface (or oil below), under what conditions will the water be able to drain through to the bottom (or the oil gush to the surface)? Scientists have defined an abstract process known as <i>percolation</i> to model such situations.</blockquote>
 
 <b>Usage</b>
-<blockquote>Run the project from bin/Percolation.jar</blockquote>
+<blockquote>Simulation w/ GUI: Run the project from bin/Percolation.jar</blockquote>
+<blockquote>Test w/o GUI: Clone repo and run from cmdline <b>java Main test -Nsize</b></blockquote>
 
 <b>Original Algorithm Analysis</b>
+======
 <table>
   <tr>
     <td>N</td>
@@ -61,10 +63,15 @@ This project utilizes the Weighted Quick-Union data structure with Path Compress
 * lg(N) converges towards 4, our estimate of b (power law exponent)
 * We can calculate a (the constant): 6.9981 = a*160<sup>4</sup>, a = (1.0 * 10<sup>-8</sup>)
 
-<blockquote>This version of Percolation can be approximated with the power law: <b>(1.0 * 10<sup>-8</sup>) * N<sup>4</sup></b></blockquote>
+<blockquote>This version can be approximated with the power law: <b>(1.0 * 10<sup>-8</sup>) * N<sup>4</sup></b></blockquote>
 
 <b>Optimized Algorithm Analysis</b>
-<blockquote>There are some areas we can optimize in the original algorithm. The time limiting factor in the process is the randomized site opening which only opens one site per loop. If N is very large, one open site is a drop in the bucket and leads to very slow percolation.<br>One way we could speed up this process is by allowing more open sites during each loop depending on the size of N. In this optimized process, ((N * N) / 100) sites are opened each loop; if N is 10, 1 site is opened per loop, but if N is 640 then 4096 sites are opened per loop. This has little impact on the calculated values of P* due to the vast size of the grid (N * N).</blockquote>
+======
+There are some areas we can optimize in the original algorithm. The time limiting factor in the process is the randomized site opening which only opens one site per loop. When N is very large one open site is a drop in the bucket, leading to very slow percolation.
+<br>
+
+One way we could speed up this process is by allowing more open sites during each loop depending on the size of N. In this optimized process, ((N * N) / 100) sites are opened each loop; if N is 10, 1 site is opened per loop, but if N is 640 then 4096 sites are opened per loop. This has little impact on the calculated values of P* due to the vast size of the grid (N * N).</blockquote>
+<br>
 <table>
   <tr>
     <td>N</td>
@@ -128,4 +135,4 @@ This project utilizes the Weighted Quick-Union data structure with Path Compress
 * lg(N) converges towards 2, our estimate of b (power law exponent)
 * We can calculate a (the constant): 0.658 = a*640<sup>2</sup>, a = (1.6 * 10<sup>-6</sup>)
 
-<blockquote>The optimized version of Percolation can be approximated with the power law: <b>(1.6 * 10<sup>-6</sup>) * N<sup>2</sup></b><br>This version is two orders of magnitude more efficient than the original and is able to process far larger input sizes due to the increase in performance.</blockquote>
+<blockquote>This optimized version can be approximated with the power law: <b>(1.6 * 10<sup>-6</sup>) * N<sup>2</sup></b><br>This is two orders of magnitude more efficient than the original and is therefore able to process far larger input sizes due to the increase in performance.</blockquote>
