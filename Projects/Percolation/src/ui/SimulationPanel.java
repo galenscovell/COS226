@@ -19,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
+@SuppressWarnings("serial")
 public class SimulationPanel extends JPanel implements Runnable {
     private Percolation percolation;
     private Thread thread;
