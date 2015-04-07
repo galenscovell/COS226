@@ -1,15 +1,15 @@
 
 /**
- * Quick-Union Data Structure
+ * UnionFind Data Structure
  */
 
 
-public class QuickUnion {
+public class UnionFind {
     private int[] parent;
     private int[] size;
     private int components;
 
-    public QuickUnion(int n) {
+    public UnionFind(int n) {
         this.parent = new int[n];
         this.size = new int[n];
         this.components = n;
