@@ -2,7 +2,7 @@
 /**
  * Percolation class
  * Creates 2D boolean grid of tiles and handles their rendering.
- * Checks for percolation using Quick-Union data structure.
+ * Checks for percolation using Union-Find data structure.
  * If top tiles and bottom tiles are ever connected, percolation attained!
  */
 
@@ -15,14 +15,14 @@ import java.util.Random;
 
 
 public class Percolation {
-    private QuickUnion qu;
+    private UnionFind uf;
     private int n;
     private boolean[][] grid;
     private int openSites;
 
     public Percolation(int n) {
         this.n = n;
-        this.qu = new QuickUnion(n + (n * n));
+        this.uf = new UnionFind(n + (n * n));
         this.grid = new boolean[n][n];
         this.openSites = 0;
 
@@ -35,9 +35,9 @@ public class Percolation {
         
         for (int x = 0; x < n - 1; x++) {
             // Connect all top tiles
-            qu.union(tile(x, 0), tile(x + 1, 0));
+            uf.union(tile(x, 0), tile(x + 1, 0));
             // Connect all bottom tiles
-            qu.union(tile(x, n - 1), tile(x + 1, n - 1));
+            uf.union(tile(x, n - 1), tile(x + 1, n - 1));
         }
     }
 
@@ -85,7 +85,7 @@ public class Percolation {
 
     public boolean percolates() {
         // Check if first tile of top row is connected to final tile of bottom row
-        return qu.connected(0, tile(n - 1, n - 1));
+        return uf.connected(0, tile(n - 1, n - 1));
     }
 
     public int getTotalSites() {
@@ -113,28 +113,31 @@ public class Percolation {
     private void flow(int x, int y) {
         int thisTile = tile(x, y);
 
-        if (x - 1 >= 0) {
+        if (x - 1 >= 0 && isOpen(x - 1, y)) {
             int left = tile(x - 1, y);
-            if (!qu.connected(thisTile, left) && isOpen(x - 1, y)) {
-                qu.union(thisTile, left);
+            if (!uf.connected(thisTile, left)) {
+                uf.union(thisTile, left);
             }
         }
-        if (x + 1 < n) {
+
+        if (x + 1 < n && isOpen(x + 1, y)) {
             int right = tile(x + 1, y);
-            if (!qu.connected(thisTile, right) && isOpen(x + 1, y)) {
-                qu.union(thisTile, right);
+            if (!uf.connected(thisTile, right)) {
+                uf.union(thisTile, right);
             }
         }
-        if (y - 1 >= 0) {
+                
+        if (y - 1 >= 0 && isOpen(x, y - 1)) {
             int top = tile(x, y - 1);
-            if (!qu.connected(thisTile, top) && isOpen(x, y - 1)) {
-                qu.union(thisTile, top);
+            if (!uf.connected(thisTile, top)) {
+                uf.union(thisTile, top);
             }
         }
-        if (y + 1 < n) {
+
+        if (y + 1 < n && isOpen(x, y + 1)) {
             int bottom = tile(x, y + 1);
-            if (!qu.connected(thisTile, bottom) && isOpen(x, y + 1)) {
-                qu.union(thisTile, bottom);
+            if (!uf.connected(thisTile, bottom)) {
+                uf.union(thisTile, bottom);
             }
         }
     }
@@ -146,7 +149,7 @@ public class Percolation {
     private boolean isFull(int x, int y) {
         if (isOpen(x, y)) {
             // Check if tile is connected to first tile of top row
-            if (qu.connected(tile(x, y), 0)) {
+            if (uf.connected(tile(x, y), 0)) {
                 return true;
             }
         }

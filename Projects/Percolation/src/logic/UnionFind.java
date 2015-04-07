@@ -1,16 +1,16 @@
 
 /**
- * Quick-Union Data Structure
+ * Union-Find Data Structure
  */
 
 package logic;
 
 
-public class QuickUnion {
+public class UnionFind {
     private int[] id;
     private int[] size;
 
-    public QuickUnion(int n) {
+    public UnionFind(int n) {
         this.id = new int[n];
         this.size = new int[n];
         // Set ID of each object to itself
