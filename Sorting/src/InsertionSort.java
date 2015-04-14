@@ -12,12 +12,8 @@ public class InsertionSort {
     public static void sort(int[] contents) {
         int n = contents.length;
         for (int i = 0; i < n; i++) {
-            for (int j = i; j > 0; j--) {
-                if (less(contents[j], contents[j - 1])) {
-                    exchange(contents, j, j - 1);
-                } else {
-                    break;
-                }
+            for (int j = i; j > 0 && less(contents[j], contents[j - 1]); j--) {
+                exchange(contents, j, j - 1);
             }
         }
     }
