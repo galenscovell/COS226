@@ -15,7 +15,6 @@ import java.util.NoSuchElementException;
 public class StackLinked<Item> implements Iterable<Item> {
     private Node first = null;
 
-    // Create Node inner class
     private class Node {
         Item item;
         Node next;
@@ -26,21 +25,15 @@ public class StackLinked<Item> implements Iterable<Item> {
     }
 
     public void push(Item item) {
-        // Save a link to the list
         Node currentFirst = first;
-        // Create new node for beginning
         first = new Node();
-        // Set instance variables in new node
         first.item = item;
         first.next = currentFirst;
     }
 
     public Item pop() {
-        // Save item to return
         Item item = first.item;
-        // Delete first node
         first = first.next;
-        // Return saved item
         return item;
     }
 

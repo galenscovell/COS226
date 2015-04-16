@@ -24,32 +24,21 @@ public class QueueLinked {
     }
 
     public void enqueue(String item) {
-        // Save link to last node
         Node oldLast = last;
-        // Create new node for end
         last = new Node();
         last.item = item;
         last.next = null;
-
         if (isEmpty()) {
-            // If queue empty, add to front
             first = last;
         } else {
-            // Link new node to end of list
             oldLast.next = last;
         }
     }
 
     public String dequeue() {
-        // Save item to return
         String item = first.item;
-        // Delete first node
         first = first.next;
-
-        if (isEmpty()) {
-            last = null;
-        }
-        // Return saved item
+        if (isEmpty()) last = null;
         return item;
     }
 
