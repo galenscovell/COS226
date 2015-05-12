@@ -29,7 +29,7 @@ public class QuickSort {
             // Find item on right to swap
             // Decrement j so long as it is greater than lo
             while (less(a[lo], a[--j])) {
-                if (j = lo) break;
+                if (j == lo) break;
             }
             // Check if pointers cross
             if (i >= j) break;
